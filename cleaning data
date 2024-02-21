@@ -1,0 +1,602 @@
+import pandas as pd
+
+# Corrected file paths
+excel_file_path = 'C:/Users/BUDDHILASIRI/Downloads/Overun Analysis/Overun Analysis.xlsx'
+csv_file_path = 'C:/Users/BUDDHILASIRI/Downloads/overrun_analysis.csv'
+sheet_name = 'Overrun'  # Adjust the sheet name as necessary
+
+# Load the Excel sheet into a pandas DataFrame
+df = pd.read_excel(excel_file_path, sheet_name=sheet_name)
+
+# Save the DataFrame to a CSV file
+df.to_csv(csv_file_path, index=False)  # Set index=False to exclude row indices from the CSV
+
+import pandas as pd
+
+# Replace 'your_csv_file.csv' with the actual path to your CSV file
+csv_file_path = 'C:/Users/BUDDHILASIRI/Downloads/overrun_analysis.csv'
+
+# Read the CSV file into a pandas DataFrame
+df = pd.read_csv(csv_file_path)
+
+# Display the DataFrame
+df
+import pandas as pd
+csv_file_path = 'C:/Users/BUDDHILASIRI/Downloads/overrun_analysis.csv'
+
+# Read the CSV file into a pandas DataFrame
+df = pd.read_csv(csv_file_path)
+# Check column names
+print(df.columns)
+
+# Check data types of each column
+print(df.dtypes)
+
+# Check unique values in the 'Freezer No.' column to confirm that the desired values exist
+print(df['Freezer No.'].unique())
+
+Index(['Date', 'Freezer No.', 'Time', 'Variety', 'Product category',
+       'Over run target', 'Lower Limit', 'Upper Limit', 'SKU', 'Over run',
+       'Weight', 'First Correction Reading', 'Second Correction Reading',
+       'Third Correction Reading', 'Final Weight', 'Optional Ingredients',
+       'Op. Ingredient correction', 'Column1', 'Unnamed: 18', 'Unnamed: 19',
+       'Unnamed: 20', 'Unnamed: 21'],
+      dtype='object')
+Date                          object
+Freezer No.                   object
+Time                          object
+Variety                       object
+Product category              object
+Over run target               object
+Lower Limit                   object
+Upper Limit                   object
+SKU                           object
+Over run                      object
+Weight                        object
+First Correction Reading      object
+Second Correction Reading     object
+Third Correction Reading      object
+Final Weight                  object
+Optional Ingredients         float64
+Op. Ingredient correction    float64
+Column1                      float64
+Unnamed: 18                   object
+Unnamed: 19                  float64
+Unnamed: 20                  float64
+Unnamed: 21                  float64
+dtype: object
+['15' '13' '11' '16' '14' '9' '12' '16/11' '1' nan '-']
+
+import pandas as pd
+
+csv_file_path = 'C:/Users/BUDDHILASIRI/Downloads/overrun_analysis.csv'
+# Assuming your DataFrame is named df
+# Convert the 'Freezer No.' column to string to ensure matching
+df['Freezer No.'] = df['Freezer No.'].astype(str)
+
+# Freezers to filter, as strings
+freezers_to_filter = ['9', '11', '12', '13', '14', '15', '16']
+
+# Filter the DataFrame for the freezers, excluding any rows where 'Freezer No.' is 'nan'
+filtered_df = df[df['Freezer No.'].isin(freezers_to_filter) & (df['Freezer No.'] != 'nan')]
+
+# Now you can see the filtered DataFrame
+print(filtered_df)
+
+# If you want separate DataFrames for each freezer number:
+freezer_groups = {freezer_no: filtered_df[filtered_df['Freezer No.'] == freezer_no] for freezer_no in freezers_to_filter}
+
+# To view one of the groups, just use the dictionary key
+# For example, to view the group for freezer number '9':
+print(freezer_groups['11'])
+            Date Freezer No.         Time    Variety Product category  \
+0     2023-05-11          15            7    Vanilla          Regular   
+1     2023-05-11          15          8.3    Vanilla          Regular   
+2     2023-05-11          15           10    Vanilla          Regular   
+3     2023-05-11          15         11.3    Vanilla          Regular   
+4     2023-05-11          15           13    Vanilla          Regular   
+...          ...         ...          ...        ...              ...   
+9230  2024-01-15          16  17.30-18.30  Chocolate          Regular   
+9231  2024-01-15          16    7.00-8.00  Chocolate          Regular   
+9232  2024-01-15          16  10.00-11.00  Chocolate          Regular   
+9233  2024-01-15          16  14.30-15.30  Chocolate          Regular   
+9234  2024-01-15          16    8.00-9.00  Chocolate          Regular   
+
+     Over run target Lower Limit Upper Limit    SKU Over run  ...  \
+0                120         115         125  2 Ltr      138  ...   
+1                120         115         125  2 Ltr      125  ...   
+2                120         115         125  2 Ltr      124  ...   
+3                120         115         125  2 Ltr      120  ...   
+4                120         115         125  2 Ltr      116  ...   
+...              ...         ...         ...    ...      ...  ...   
+9230             120         115         125     2l      121  ...   
+9231             120         115         125     1L      120  ...   
+9232             120         115         125     2l      118  ...   
+9233             120         115         125     2l      118  ...   
+9234             120         115         125     2l      109  ...   
+
+     Second Correction Reading Third Correction Reading Final Weight  \
+0                          NaN                      NaN         1060   
+1                          NaN                      NaN          NaN   
+2                          NaN                      NaN          NaN   
+3                          NaN                      NaN          NaN   
+4                          NaN                      NaN          NaN   
+...                        ...                      ...          ...   
+9230                       NaN                      NaN          NaN   
+9231                       NaN                      NaN          NaN   
+9232                       NaN                      NaN          NaN   
+9233                       NaN                      NaN          NaN   
+9234                       NaN                      NaN         1060   
+
+     Optional Ingredients Op. Ingredient correction  Column1  Unnamed: 18  \
+0                     NaN                       NaN      NaN          NaN   
+1                     NaN                       NaN      NaN          NaN   
+2                     NaN                       NaN      NaN          NaN   
+3                     NaN                       NaN      NaN          NaN   
+4                     NaN                       NaN      NaN          NaN   
+...                   ...                       ...      ...          ...   
+9230                  NaN                       NaN      NaN          NaN   
+9231                  NaN                       NaN      NaN          NaN   
+9232                  NaN                       NaN      NaN          NaN   
+9233                  NaN                       NaN      NaN          NaN   
+9234                  NaN                       NaN      NaN          NaN   
+
+      Unnamed: 19 Unnamed: 20  Unnamed: 21  
+0             NaN         NaN          NaN  
+1             NaN         NaN          NaN  
+2             NaN         NaN          NaN  
+3             NaN         NaN          NaN  
+4             NaN         NaN          NaN  
+...           ...         ...          ...  
+9230          NaN         NaN          NaN  
+9231          NaN         NaN          NaN  
+9232          NaN         NaN          NaN  
+9233          NaN         NaN          NaN  
+9234          NaN         NaN          NaN  
+
+[9181 rows x 22 columns]
+            Date Freezer No.         Time       Variety Product category  \
+20    2023-05-11          11            7  Fruit & Nuts          Regular   
+21    2023-05-11          11          8.3  Fruit & Nuts          Regular   
+22    2023-05-11          11           10  Fruit & Nuts          Regular   
+23    2023-05-11          11         11.3  Fruit & Nuts          Regular   
+24    2023-05-11          11           13  Fruit & Nuts          Regular   
+...          ...         ...          ...           ...              ...   
+8904  2024-01-14          11  16.30-17.30            DD          Regular   
+8905  2024-01-14          11  17.30-18.30            DD          Regular   
+8906  2024-01-14          11    7.00-8.00            DD          Regular   
+8907  2024-01-14          11  15.30-16.30            DD          Regular   
+9110  1900-01-04          11  14.30-15.30            DD          Regular   
+
+     Over run target Lower Limit Upper Limit    SKU Over run  ...  \
+20               120         115         125  1 Ltr      116  ...   
+21               120         115         125  1 Ltr      116  ...   
+22               120         115         125  1 Ltr      116  ...   
+23               120         115         125  1 Ltr      116  ...   
+24               120         115         125  1 Ltr      117  ...   
+...              ...         ...         ...    ...      ...  ...   
+8904             120         115         125     1L      111  ...   
+8905             120         115         125     1L      111  ...   
+8906             120         115         125     1L      102  ...   
+8907             120         115         125     1L       98  ...   
+9110             120         115         125     1L      104  ...   
+
+     Second Correction Reading Third Correction Reading Final Weight  \
+20                         NaN                      NaN          NaN   
+21                         NaN                      NaN          NaN   
+22                         NaN                      NaN          NaN   
+23                         NaN                      NaN          NaN   
+24                         NaN                      NaN          NaN   
+...                        ...                      ...          ...   
+8904                       NaN                      NaN          530   
+8905                       111                      124          NaN   
+8906                       124                      NaN          NaN   
+8907                       NaN                      NaN          NaN   
+9110                       NaN                      NaN          560   
+
+     Optional Ingredients Op. Ingredient correction  Column1  Unnamed: 18  \
+20                   46.0                      68.5      NaN          NaN   
+21                   53.0                      67.9      NaN          NaN   
+22                   69.2                       NaN      NaN          NaN   
+23                   68.0                       NaN      NaN          NaN   
+24                   72.0                       NaN      NaN          NaN   
+...                   ...                       ...      ...          ...   
+8904                  NaN                       NaN      NaN          NaN   
+8905                  NaN                       NaN      NaN          NaN   
+8906                  NaN                       NaN      NaN          NaN   
+8907                  NaN                       NaN      NaN          NaN   
+9110                  NaN                       NaN      NaN          NaN   
+
+      Unnamed: 19 Unnamed: 20  Unnamed: 21  
+20            NaN         NaN          NaN  
+21            NaN         NaN          NaN  
+22            NaN         NaN          NaN  
+23            NaN         NaN          NaN  
+24            NaN         NaN          NaN  
+...           ...         ...          ...  
+8904          NaN         NaN          NaN  
+8905          NaN         NaN          NaN  
+8906          NaN         NaN          NaN  
+8907          NaN         NaN          NaN  
+9110          NaN         NaN          NaN  
+
+[1225 rows x 22 columns]
+from IPython.display import display
+
+# Assuming you have a dictionary of DataFrames named freezer_groups as before
+# You can loop through each group and display them as tables
+
+for freezer_no, group_df in freezer_groups.items():
+    print(f"Data for Freezer No. {freezer_no}:")
+    display(group_df)  # This will display the DataFrame as an HTML table in Jupyter Notebook
+    print("\n")  # Just to add a space between tables for clarity
+//same data as HTML tables
+# Select the DataFrame for Freezer No. 9
+freezer_9_df = freezer_groups['9']
+
+# Find the unique varieties for Freezer No. 9
+unique_varieties = freezer_9_df['Variety'].unique()
+
+# Display the unique varieties
+unique_varieties
+array(['Chocolate', 'Vanilla', 'Fruit & Nuts', 'frozen mango ',
+       'frozen Berry', 'F/N', nan, 'Vanila', 'Strawbeery', 'D/D',
+       'French vanila', 'Strawberry', 'Gelato', 'Strwbeery', 'Choclate',
+       'Rasberry', 'Verry Berry', 'Strawbery', 'Mango Yogurt',
+       'Vanila Lite', 'Frnch Vanila', 'Coho Lite', 'Rasbeery',
+       'Vanila lite', 'Choc Lite', 'Vanilla Lite ', 'Vanilla ', 'Vanila ',
+       'F/N ', 'Hezal nut', 'Strawberry ', 'Chocolate ', 'Vanilla Lite'],
+      dtype=object)
+
+# Define a mapping of misspelled/alternate names to standardized names
+variety_mapping = {
+    'Chocolate': ['Choclate', 'Chocolate '],
+    'Vanilla': ['Vanila', 'Vanilla ', 'Vanila '],
+    'Lite Vanilla' : ['Vanila Lite', 'Vanila lite', 'Vanilla Lite', 'Vanilla Lite '],
+    'Fruit & Nuts': ['F/N', 'F/N '],
+    'Frozen Mango': ['frozen mango '],  # Assuming you want to capitalize this
+    'Frozen Berry': ['frozen Berry'],  # Assuming you want to capitalize this
+    'Strawberry': ['Strawbeery', 'Strwbeery', 'Strawbery', 'Strawberry ', 'Rasberry', 'Rasbeery'],
+    'French Vanilla': ['French vanila', 'Frnch Vanila'],
+    'Lite Chocolate': ['Choc Lite', 'Coho Lite'],  # Assuming 'Coho Lite' was meant to be 'Choco Lite'
+    'Very Berry': ['Verry Berry', 'Verry Berry '],
+    'Mango Yogurt': ['Mango Yogurt'],  # Assuming you want to keep as is
+    'Hazelnut': ['Hezal nut'],
+    # Add other mappings as necessary
+}
+
+# Function to apply the mapping
+def standardize_variety(variety):
+    for standard, variations in variety_mapping.items():
+        if variety in variations:
+            return standard
+    return variety  # If not found in the mapping, return the variety as is
+
+# Standardize the 'Variety' column
+freezer_9_df['Variety'] = freezer_9_df['Variety'].apply(standardize_variety)
+
+# Now check the unique varieties again
+unique_varieties_standardized = freezer_9_df['Variety'].unique()
+unique_varieties_standardized
+
+array(['Chocolate', 'Vanilla', 'Fruit & Nuts', 'Frozen Mango',
+       'Frozen Berry', nan, 'Strawberry', 'D/D', 'French Vanilla',
+       'Gelato', 'Very Berry', 'Mango Yogurt', 'Lite Vanilla',
+       'Lite Chocolate', 'Hazelnut'], dtype=object)
+
+# Assuming freezer_9_df is the DataFrame for Freezer No. 9
+# Find the unique SKUs for Freezer No. 9
+unique_skus = freezer_9_df['SKU'].unique()
+
+# Display the unique SKUs
+unique_skus
+array(['500ml', '4 Ltr', '1L', '500 ml', '-', '2 L', nan, '1l', '2l',
+       '2L', '4l', '5000ml', '500ML'], dtype=object)
+import pandas as pd
+import numpy as np  # Import NumPy if you prefer using numpy.nan
+
+# Define a mapping of SKU variations to standardized SKUs, using strings for simplicity
+sku_mapping = {
+    '500ml': ['500 ml', '500ML', '500ml'],
+    '1L': ['1L', '1l'],
+    '2L': ['2 L', '2l', '2L'],
+    '4L': ['4 Ltr', '4l'],
+    '5000ml': ['5000ml'],  # Assuming you want to keep as is, or you could map to another standard if preferred
+    '-': ['-'],  # Assuming this represents missing or unknown data
+    # No need to map 'nan' explicitly here, we'll handle NaN values separately
+}
+
+# Function to apply the mapping, without directly referencing 'nan'
+def standardize_sku(sku):
+    for standard, variations in sku_mapping.items():
+        if sku in variations:
+            return standard
+    return sku  # If the SKU doesn't match any variation, return it as is
+
+# Apply the mapping to standardize the 'SKU' column
+# Use str to convert any non-string types to string, handling NaN values correctly
+freezer_9_df['SKU'] = freezer_9_df['SKU'].astype(str).apply(standardize_sku)
+
+# Replace 'nan' string (from NaN conversion) back to actual NaN values
+freezer_9_df['SKU'].replace('nan', pd.NA, inplace=True)
+
+# Now check the standardized unique SKUs again
+unique_skus_standardized = freezer_9_df['SKU'].unique()
+unique_skus_standardized
+array(['500ml', '4L', '1L', '-', '2L', <NA>, '5000ml'], dtype=object)
+
+import pandas as pd
+
+# Convert 'Date' column to datetime
+freezer_9_df['Date'] = pd.to_datetime(freezer_9_df['Date'])
+
+# Filter for dates within January 1, 2023, to December 31, 2023
+start_date = '2023-01-01'
+end_date = '2023-12-31'
+filtered_df = freezer_9_df[(freezer_9_df['Date'] >= start_date) & (freezer_9_df['Date'] <= end_date)]
+
+# Now filtered_df contains only the data for the year 2023
+filtered_df
+
+import os
+
+varieties = filtered_df['Variety'].dropna().unique()
+skus = filtered_df['SKU'].dropna().unique()
+
+# Create a directory to save the files if it doesn't already exist
+output_dir = 'C:/Users/BUDDHILASIRI/Downloads/cleaned_data_freezer_9_2023'
+os.makedirs(output_dir, exist_ok=True)
+
+for variety in varieties:
+    df_variety = filtered_df[filtered_df['Variety'] == variety]
+    for sku in skus:
+        # Filter the DataFrame for the current variety and SKU
+        df_sku = df_variety[df_variety['SKU'] == sku]
+        
+        # Check if the filtered DataFrame is empty, continue to the next iteration if so
+        if df_sku.empty:
+            continue
+        
+        # Generate the filename, ensuring spaces and other characters are handled
+        filename = f"Freezer_9_{variety}_{sku}_2023.csv".replace(" ", "_").replace("/", "_")
+        filepath = os.path.join(output_dir, filename)
+        
+        # Save to CSV
+        df_sku.to_csv(filepath, index=False)
+        print(f"Saved {filepath}")
+
+
+import pandas as pd
+
+# Assuming 'df' is your main DataFrame with all the data
+# Replace 'YourVarietyColumnName' with the actual name of your 'Variety' column
+unique_varieties = df['Variety'].unique()
+
+# Display the unique varieties
+print(unique_varieties)
+
+# If you want to count the number of unique varieties
+number_of_unique_varieties = len(unique_varieties)
+print(f"There are {number_of_unique_varieties} unique varieties.")
+
+['Vanilla' 'Fruit & Nuts' 'Chocolate' 'Celebration' 'Cookie' 'Choc chip'
+ 'Strawberry' 'Chocolate ' 'Very berry' 'Double Delight' 'frozen mango '
+ 'frozen Berry' 'Vanilla ' 'Hakuru Mix' 'karthakolomban' 'Twist' 'Mango'
+ 'Rocky road' 'MassHakuru Mixellow' 'Mango KKC' 'chocolate' 'Choholate'
+ 'Gelato ' 'F/N' 'D/D' 'F/N ' 'H/M' 'Starwberry' 'Choc choc chip' 'Mango '
+ 'strawberry' 'Vanlla' 'Verry bery' 'Vanilla lite' 'Hazel nut'
+ 'French vanilla' 'Choco lite' 'Hakuru mix' '-' 'Cookie Cream'
+ 'Choc Choc Chip' 'Roky road Mashmelo' 'Kartha kolumban' 'Very Berry'
+ 'Vanila' nan 'Chocholate' 'Strawbeery' 'F&N' 'Rasberry' 'KK'
+ 'Verry beery' 'F/n' 'Chocolat' 'Cho chip' 'French vanila' 'Vanila '
+ 'Chop chip' 'Cookie cream' 'Gelato' 'Chess Cake' 'Twsit' 'Strwbeery'
+ 'Mango KKc' 'Cookie ' 'Choclate' 'Hezal nut' 'Verry Berry' 'Strawbery'
+ 'Mango Yogurt' 'Berry Yogurt' 'Vanila Lite' 'Frnch Vanila' 'Coho Lite'
+ 'Verry Bery' 'Mashmellow' 'Strawerry' 'vanilla' 'ROkey Road' 'Rasbeery'
+ 'Rokey road' 'DD' 'Vanila lite' 'Choc Lite' 'vanila' 'Raspberry'
+ 'Hezal Nut' 'Starwbeery' 'Rock road' 'Chocolte' 'Choclolate' 'Choc hip'
+ 'Winter slice' 'Veryberry' 'Winter Slice' 'Winterslice' 'Choco Lite'
+ 'S/B' 'Vanilla Lite ' 'Verry Berry ' 'Rocky Road ' 'Choclolte'
+ 'Verryberry' 'Mango (KKC)' 'Rocky Road' 'STOP' 'Mango(KKC)' 'Choc Chip'
+ 'Strawberry ' 'TWIST' 'CHOCOLATE' 'Choc Chip ' 'Hezelnut' 'F/N  '
+ 'S/Berry' 'Frozen yoghurt (Berry)' 'Mango (kkc)' 'Vanilla Lite'
+ 'Hazelnut' 'VANILLA']
+There are 120 unique varieties.
+
+# Define a mapping of misspelled/alternate names to standardized names
+variety_mapping = {
+    'Vanilla': ['Vanilla', 'Vanilla ', 'Vanila', 'Vanila ', 'vanilla', 'VANILLA', 'Vanlla','vanila'],
+    'Vanilla Lite': ['Vanila lite', 'Vanila Lite', 'Vanilla lite', 'Vanilla Lite ', 'Vanilla Lite', 'Lite Vanilla'],
+    'French Vanilla': ['French vanilla', 'French vanila', 'Frnch Vanila'],
+    'Chocolate': ['Chocolate', 'Chocolate ', 'chocolate', 'Choholate', 'Chocolat', 'Choclate', 'Choclolte', 'Chocolte', 'Choclolate', 'Chocholate','CHOCOLATE'],
+    'Choc Chip': ['Choc hip', 'Choc Chip', 'Choc Chip ', 'Choc chip', 'Choc choc chip', 'Choc Choc Chip', 'Cho chip', 'Chop chip'],
+    'Berry Yogurt': ['Berry Yogurt'],
+    'Raspberry': ['Raspberry', 'Rasbeery', 'Rasberry','Raspberry'],
+    'Fruit & Nuts': ['Fruit & Nuts', 'F/N', 'F/N ', 'F/n', 'F&N', 'F/N  '],
+    'Mango': ['Mango', 'Mango ', 'Mango KKC', 'Mango (KKC)', 'Mango(KKC)', 'Mango (kkc)', 'karthakolomban', 'Kartha kolumban', 'KK','Mango KKc'],
+    'Mango Yogurt': ['Mango Yogurt'],
+    'Frozen Mango': ['frozen mango ', 'Frozen Mango'],
+    'Frozen Berry': ['frozen Berry', 'Frozen Berry','Frozen yoghurt (Berry)'],
+    'Rocky Road': ['Rocky Road', 'Rocky road', 'Roky road Mashmelo', 'Rokey road', 'Rocky Road ', 'Rock road', 'Rock Road', 'Rocky road','ROkey Road'],
+    'Hazelnut': ['Hazelnut', 'Hezal nut', 'Hezelnut', 'Hazel nut','Hezal Nut'],
+    'Celebration': ['Celebration'],
+    'Cookie Cream': ['Cookie', 'Cookie ', 'Cookie Cream', 'Cookie cream'],
+    'Gelato': ['Gelato', 'Gelato '],
+    'Double Delight': ['Double Delight', 'D/D', 'DD'],
+    'Hakuru Mix': ['Hakuru Mix', 'Hakuru mix', 'MassHakuru Mixellow'],
+    'Twist': ['Twist', 'Twsit', 'TWIST'],
+    'Winter Slice': ['Winter slice', 'Winter Slice', 'Winterslice'],
+    'Strawberry': ['Strawberry', 'strawberry', 'Starwberry', 'Starwbeery', 'Strawbeery', 'Strawbery', 'Strawberry ','Strwbeery','Strawerry','S/B','S/Berry'],
+    'Very Berry': ['Very berry', 'Very Berry', 'Veryberry', 'Verry bery', 'Verry Berry', 'Verry Berry ', 'Verryberry','Verry beery'],
+    # Additional corrections
+    'Chocolate Lite': ['Choco lite', 'Choco Lite', 'Lite Chocolate', 'Choc Lite', 'Coho Lite', 'Chocolate Lite'],
+    # Further mapping based on provided list
+    # Add additional mappings here
+}
+
+
+# Flatten the variety_mapping to make it easier to apply
+flattened_variety_mapping = {variation: standard for standard, variations in variety_mapping.items() for variation in variations}
+
+# Function to apply the mapping
+def standardize_variety(variety):
+    return flattened_variety_mapping.get(variety, variety)  # Return the mapped variety name if it exists, otherwise return the variety as is
+
+# Standardize the 'Variety' column for the whole DataFrame
+df['Variety'] = df['Variety'].apply(standardize_variety)
+
+# Now check the unique varieties again
+unique_varieties_standardized = df['Variety'].unique()
+unique_varieties_standardized
+array(['Vanilla', 'Fruit & Nuts', 'Chocolate', 'Celebration',
+       'Cookie Cream', 'Choc Chip', 'Strawberry', 'Very Berry',
+       'Double Delight', 'Frozen Mango', 'Frozen Berry', 'Hakuru Mix',
+       'Mango', 'Twist', 'Rocky Road', 'Gelato', 'H/M', 'Vanilla Lite',
+       'Hazelnut', 'French Vanilla', 'Chocolate Lite', '-', nan,
+       'Raspberry', 'Chess Cake', 'Mango Yogurt', 'Berry Yogurt',
+       'Verry Bery', 'Mashmellow', 'Winter Slice', 'STOP'], dtype=object)
+
+import pandas as pd
+
+# Assuming 'df' is your main DataFrame with all the data
+# Replace 'YourVarietyColumnName' with the actual name of your 'Variety' column
+unique_SKU = df['SKU'].unique()
+
+# Display the unique varieties
+print(unique_SKU)
+
+# If you want to count the number of unique varieties
+number_of_unique_SKU = len(unique_SKU)
+print(f"There are {number_of_unique_SKU} unique varieties.")
+
+['2 Ltr' '1 Ltr' '500ml' '4 Ltr' '5 Ltr' '1Ltr' '2Ltr' '1L' '2L' '4L'
+ '500 ml' '1 L' '2 L' '4 L' '-' nan '1l' '4l' '2l' '4ll' '1' '5000ml'
+ '1.2L' 'STOP' '500ML']
+There are 25 unique varieties.
+
+# Define a mapping of SKU variations to standardized SKUs
+sku_mapping = {
+    '500ml': ['500ml', '500 ml', '500ML'],
+    '1l': ['1 Ltr', '1Ltr', '1L', '1 L', '1l', '1', '1 Ltr'],
+    '2l': ['2 Ltr', '2Ltr', '2L', '2 L', '2l'],
+    '4l': ['4 Ltr', '4L', '4 L', '4l', '4ll'],
+    '5l': ['5 Ltr'],
+    '1.2l': ['1.2L'],
+}
+
+# Flatten the mapping to a direct 'search: replacement' structure
+flattened_mapping = {variant: key for key, variants in sku_mapping.items() for variant in variants}
+
+# Function to apply the SKU mapping
+def standardize_sku(sku):
+    if pd.isna(sku) or sku == '-' or sku.upper() == 'STOP':
+        return None  # Return None for NaN, '-', and 'STOP' values, or you can choose to return 'Unknown'
+    return flattened_mapping.get(sku, sku)  # Use the mapping if available; otherwise, return the SKU as is
+
+# Apply the mapping to standardize the 'SKU' column in your DataFrame
+df['SKU'] = df['SKU'].apply(standardize_sku)
+
+# Verify the unique SKUs after standardization
+unique_skus_standardized = df['SKU'].unique()
+print(unique_skus_standardized)
+
+['2l' '1l' '500ml' '4l' '5l' None '5000ml' '1.2l']
+
+import pandas as pd
+
+# Assuming df_freezer9_Vanilla_1l is your main DataFrame
+# df_freezer9_Vanilla_1l = pd.read_csv('path_to_your_dataset.csv') # Uncomment and adjust this line as needed
+
+# Convert 'Over run' and 'Weight' columns to numeric, if not already
+df_freezer9_Vanilla_1l['Over run'] = pd.to_numeric(df_freezer9_Vanilla_1l['Over run'], errors='coerce')
+df_freezer9_Vanilla_1l['Weight'] = pd.to_numeric(df_freezer9_Vanilla_1l['Weight'], errors='coerce')
+
+# Filter for overrun between 115 and 116, and calculate average weight
+avg_weight_115_116 = df_freezer9_Vanilla_1l[(df_freezer9_Vanilla_1l['Over run'] >= 115) & (df_freezer9_Vanilla_1l['Over run'] <= 116)]['Weight'].mean()
+
+# Filter for overrun between 124 and 125, and calculate average weight
+avg_weight_124_125 = df_freezer9_Vanilla_1l[(df_freezer9_Vanilla_1l['Over run'] >= 124) & (df_freezer9_Vanilla_1l['Over run'] <= 125)]['Weight'].mean()
+
+# Print the results
+print(f"Average weight for overrun between 115 and 116: {avg_weight_115_116:.2f} grams")
+print(f"Average weight for overrun between 124 and 125: {avg_weight_124_125:.2f} grams")
+
+Average weight for overrun between 115 and 116: 562.50 grams
+Average weight for overrun between 124 and 125: 532.50 grams
+
+import pandas as pd
+from pathlib import Path
+
+# Specify the directory containing the Excel files
+output_dir = Path.home() / 'Downloads' / 'cleaned_data_2023_excel'
+
+# Initialize a dictionary to store the average weights
+average_weights = {}
+
+# Loop through all Excel files in the directory
+for file_path in output_dir.glob('*.xlsx'):
+    # Load the Excel file
+    df = pd.read_excel(file_path)
+
+    # Ensure 'Over run' and 'Weight' are numeric
+    df['Over run'] = pd.to_numeric(df['Over run'], errors='coerce')
+    df['Weight'] = pd.to_numeric(df['Weight'], errors='coerce')
+
+    # Filter for specific overrun ranges and calculate average weight
+    avg_weight_115_116 = df[df['Over run'].isin([115, 116])]['Weight'].mean()
+    avg_weight_124_125 = df[df['Over run'].isin([124, 125])]['Weight'].mean()
+
+    # Store the results
+    average_weights[file_path.stem] = {
+        'Avg Weight (115, 116)': avg_weight_115_116,
+        'Avg Weight (124, 125)': avg_weight_124_125
+    }
+
+# Convert the results to a DataFrame
+results_df = pd.DataFrame.from_dict(average_weights, orient='index')
+
+# Display the results DataFrame
+print(results_df)
+
+# Optionally, save the results to a new Excel file
+results_path = output_dir / 'average_weights_summary.xlsx'
+results_df.to_excel(results_path)
+
+print(f"Summary of average weights saved to {results_path}")
+
+                              Avg Weight (115, 116)  Avg Weight (124, 125)
+freezer11_Chess_Cake_1l                         NaN                    NaN
+freezer11_Chocolate_1l                   555.000000             561.428571
+freezer11_Chocolate_2l                  1050.000000            1042.500000
+freezer11_Chocolate_4l                          NaN                    NaN
+freezer11_Chocolate_500ml                       NaN             285.000000
+...                                             ...                    ...
+freezer9_Vanilla_5000ml                         NaN                    NaN
+freezer9_Vanilla_500ml                   298.409091             325.387755
+freezer9_Vanilla_Lite_5000ml                    NaN                    NaN
+freezer9_Vanilla_Lite_500ml                     NaN                    NaN
+freezer9_Very_Berry_2l                          NaN                    NaN
+
+[144 rows x 2 columns]
+Summary of average weights saved to C:\Users\BUDDHILASIRI\Downloads\cleaned_data_2023_excel\average_weights_summary.xlsx
+
+import pandas as pd
+from pathlib import Path
+
+# Path to the summary Excel file
+summary_file_path = Path('C:/Users/BUDDHILASIRI/Downloads/cleaned_data_2023_excel/average_weights_summary.xlsx')
+
+# Read the summary Excel file
+df_summary = pd.read_excel(summary_file_path)
+
+# Drop rows with any NaN values
+df_cleaned = df_summary.dropna(how='any')
+
+# Save the cleaned DataFrame back to an Excel file
+cleaned_file_path = summary_file_path.parent / 'average_weights_summary_cleaned.xlsx'
+df_cleaned.to_excel(cleaned_file_path, index=False)
+
+print(f"Cleaned summary saved to {cleaned_file_path}")
+
+
+
